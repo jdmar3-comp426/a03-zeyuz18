@@ -24,11 +24,11 @@ export function identifyVariable(variable) {
 
  */
 export function identifyArray(array) {
-   let a = [];
-   for (let i = 0; i < a.length; i++) {
-      a.push(identifyVariable(array[i]))
+   let res = [];
+   for (let i = 0; i < array.length; i++) {
+      res.push(identifyVariable(array[i]))
    }
-   return a;
+   return res;
 }
 
 /**
