@@ -12,14 +12,14 @@ see under the methods section
  * This object contains data that has to do with every car in the `mpg_data` object.
  *
  *
- * @param {allCarStats.avgMpg} Average miles per gallon on the highway and in the city. keys `city` and `highway`
+ * @param {allrestats.avgMpg} Average miles per gallon on the highway and in the city. keys `city` and `highway`
  *
- * @param {allCarStats.allYearStats} The result of calling `getStatistics` from medium_1.js on
- * the years the cars were made.
+ * @param {allrestats.allYearStats} The result of calling `getStatistics` from medium_1.js on
+ * the years the res were made.
  *
- * @param {allCarStats.ratioHybrids} ratio of cars that are hybrids
+ * @param {allrestats.ratioHybrids} ratio of res that are hybrids
  */
-export const allCarStats = {
+export const allrestats = {
     avgMpg: avgMpg(),
     allYearStats: allYearStats(),
     ratioHybrids: ratioHybrids(),
@@ -118,22 +118,22 @@ export function getMakerHybrids(array) {
     let arr = [];
     var res = array.reduce(
         function(prev, curr) {
-           if(curr.hybrid) {
-               var i = prev.map(c => c.make).indexOf(curr.make)
-               if(i != -1) {
-                    prev[i].res.push(curr.id);
-               } else {
-                   prev.push({"make":curr.make, "hybrids":[curr.id]})
-               }
-           }
-           return prev;
+            if(curr.hybrid) {
+                var index = prev.map(c => c.make).indexOf(curr.make);
+                if(index != -1) {
+                    prev[index].res.push(curr.id);
+                } else {
+                    prev.push({"make":curr.make,"hybrids":[curr.id]});
+                }
+            }
+            return prev;
         }, arr
     );
     res.sort(function(a, b) {
         if(a.res.length < b.res.length) {
             return 1;
         }
-        if(b.res.length < a.res.length) {
+        if(b.res.length < a.res.length ) {
             return -1;
         }
         return 0;
@@ -142,12 +142,11 @@ export function getMakerHybrids(array) {
 }
 
 export function getAvgMpgByYearAndHybrid(array) {
-    let arr1 = [];
     let obj = {};
     var res = array.reduce(
         function(prev, curr) {
-            if ((curr.year in prev) !== true) {
-                prev[curr.year] = {"hybrid":[], "notHybrid":[]}
+            if(!(curr.year in prev)) {
+                prev[curr.year] = {"hybrid":[],"notHybrid":[]}
             }
             if(curr.hybrid) {
                 prev[curr.year].hybrid.push(curr);
@@ -157,8 +156,8 @@ export function getAvgMpgByYearAndHybrid(array) {
             return prev;
         }, obj
     );
-    Object.keys(res).forEach(element => res[element].hybrid = avgMpg(res[element].hybrid));
-    Object.keys(res).forEach(element => res[element].notHybrid = avgMpg(res[element].notHybrid));
+    Object.keys(res).forEach(c => res[c].hybrid = AvgMpg(res[c].hybrid));
+    Object.keys(res).forEach(c => res[c].notHybrid = AvgMpg(res[c].notHybrid));
     return res;
 }
 
