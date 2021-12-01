@@ -12,14 +12,14 @@ see under the methods section
  * This object contains data that has to do with every car in the `mpg_data` object.
  *
  *
- * @param {allrestats.avgMpg} Average miles per gallon on the highway and in the city. keys `city` and `highway`
+ * @param {allcarStats.avgMpg} Average miles per gallon on the highway and in the city. keys `city` and `highway`
  *
- * @param {allrestats.allYearStats} The result of calling `getStatistics` from medium_1.js on
- * the years the res were made.
+ * @param {allcarStats.allYearStats} The result of calling `getStatistics` from medium_1.js on
+ * the years the car were made.
  *
- * @param {allrestats.ratioHybrids} ratio of res that are hybrids
+ * @param {allcarStats.ratioHybrids} ratio of car that are hybrids
  */
-export const allrestats = {
+export const allCarStats = {
     avgMpg: {city: mpg_data.map(c => c.city_mpg).reduce((a, b) => a + b, 0) / mpg_data.length,
     highway: mpg_data.map(c => c.highway_mpg).reduce((a, b) => a + b, 0) / mpg_data.length},
     allYearStats: getStatistics(mpg_data.map(c => c.year)),
