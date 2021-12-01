@@ -32,7 +32,7 @@ export function avgMpg() {
         city.push(mpg_data[i].city_mpg)
         highway.push(mpg_data[i]).highway_mpg;
     }
-    return {city:getSum(city) /mpg_data.length, highway:getSum(highway) / mpg_data.length}
+    return {city:getSum(city) / mpg_data.length, highway:getSum(highway) / mpg_data.length}
 }
 
 export function allYearStats() {
@@ -110,11 +110,11 @@ export function ratioHybrids() {
  * }
  */
 export const moreStats = {
-    makerHybrids: getMakerHybrids(),
-    avgMpgByYearAndHybrid: getAvgMpgByYearAndHybrid(),
+    makerHybrids: getMakerHybrids(array),
+    avgMpgByYearAndHybrid: getAvgMpgByYearAndHybrid(array),
 };
 
-export function getMakerHybrids() {
+export function getMakerHybrids(array) {
     let arr = [];
     let res = array.reduce(
         function(prev, curr) {
@@ -141,7 +141,7 @@ export function getMakerHybrids() {
     return res;
 }
 
-export function getAvgMpgByYearAndHybrid() {
+export function getAvgMpgByYearAndHybrid(array) {
     let arr1 = [];
     let obj = {};
     let res = array.reduce(
