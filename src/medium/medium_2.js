@@ -125,8 +125,8 @@ export function getAvgMpgByYearAndHybrid(array) {
             return prev;
         }, obj
     );
-    Object.keys(res).forEach(c => res[c].hybrid = AvgMpg(res[c].hybrid));
-    Object.keys(res).forEach(c => res[c].notHybrid = AvgMpg(res[c].notHybrid));
+    Object.keys(res).forEach(c => res[c].hybrid = avgMpg(res[c].hybrid));
+    Object.keys(res).forEach(c => res[c].notHybrid = avgMpg(res[c].notHybrid));
     return res;
 }
 
