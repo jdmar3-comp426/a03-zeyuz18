@@ -1,5 +1,5 @@
 import mpg_data from "./data/mpg_data.js";
-import {getStatistics} from "./medium_1.js";
+import {getStatistics, getSum} from "./medium_1.js";
 
 /*
 This section can be done by using the array prototype functions.
@@ -20,12 +20,38 @@ see under the methods section
  * @param {allCarStats.ratioHybrids} ratio of cars that are hybrids
  */
 export const allCarStats = {
-    avgMpg: undefined,
-    allYearStats: undefined,
-    ratioHybrids: undefined,
+    avgMpg: avgMpg(),
+    allYearStats: allYearStats(),
+    ratioHybrids: ratioHybrids(),
 };
 
+export function avgMpg() {
+    let city = [];
+    let highway = [];;
+    for (let i = 0; i < mpg_data.length; i++) {
+        city.push(mpg_data[i].city_mpg)
+        highway.push(mpg_data[i]).highway_mpg;
+    }
+    return {city:getSum(city) /mpg_data.length, highway:getSum(highway) / mpg_data.length}
+}
 
+export function allYearStats() {
+    let res = [];
+    for (let i = 0; i < mpg_data.length; i++) {
+        res.push(mpg_data[i].res)
+    }
+    return getStatistics(res);
+}
+
+export function ratioHybrids() {
+    let res = 0;
+    for (let i = 0; i < mpg_data.length; i++) {
+        if (mpg_data[i].hybrid) {
+            res++;
+        }
+    }
+    return res / mpg_data.length;
+}
 /**
  * HINT: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce
  *
@@ -84,6 +110,55 @@ export const allCarStats = {
  * }
  */
 export const moreStats = {
-    makerHybrids: undefined,
-    avgMpgByYearAndHybrid: undefined
+    makerHybrids: getMakerHybrids(),
+    avgMpgByYearAndHybrid: getAvgMpgByYearAndHybrid(),
 };
+
+export function getMakerHybrids() {
+    let arr = [];
+    let res = array.reduce(
+        function(prev, curr) {
+           if(curr.hybrid) {
+               var i = prev.map(c => c.make).indexOf(curr.make)
+               if(i != -1) {
+                    prev[i].res.push(curr.id);
+               } else {
+                   prev.push({"make":curr.make, "hybrids":[curr.id]})
+               }
+           }
+           return prev;
+        }, arr
+    );
+    res.sort(function(a, b) {
+        if(a.res.length < b.res.length) {
+            return 1;
+        }
+        if(b.res.length < a.res.length) {
+            return -1;
+        }
+        return 0;
+    });
+    return res;
+}
+
+export function getAvgMpgByYearAndHybrid() {
+    let arr1 = [];
+    let obj = {};
+    let res = array.reduce(
+        function(prev, curr) {
+            if ((curr.year in prev) != true) {
+                prev[curr.year] = {"hybrid":[], "notHybrid":[]}
+            }
+            if(curr.hybrid) {
+                prev[curr.year].hybrid.push(curr);
+            } else {
+                prev[curr.year].notHybrid.push(curr);
+            }
+            return prev;
+        }, obj
+    );
+    Object.keys(res).forEach(element => res[element].hybrid = avgMpg(res[element].hybrid));
+    Object.keys(res).forEach(element => res[element].notHybrid = avgMpg(res[element].notHybrid));
+    return res;
+}
+
