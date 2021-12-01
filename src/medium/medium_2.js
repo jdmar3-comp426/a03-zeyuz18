@@ -88,31 +88,27 @@ export const moreStats = {
 };
 
 export function getMakerHybrids(array) {
-    let arr = [];
-    var res = array.reduce(
-        function(prev, curr) {
-            if(curr.hybrid) {
-                var i = prev.map(c => c.make).indexOf(curr.make);
-                if(i != -1) {
-                    prev[i].res.push(curr.id);
-                } else {
-                    prev.push({"make":curr.make,"hybrids":[curr.id]});
-                }
+    let temp = [];
+    let res = [];
+    for (let i = 0; i < array.length; i++) {
+        temp.push(array[i].make);
+    }
+    let a = [... new Set(temp)];
+    for (let i = 0; i < temp.length; i++) {
+        var str = a[i];
+        const id_arr = [];
+        for (let j = 0; j < array.length; j++) {
+            if (array[j].make == a[i]) {
+                id_arr.push(array[j].id)
             }
-            return prev;
-        }, arr
-    );
+        }
+        res.push({make: str, hybrids: id_arr});
+    }
     res.sort(function(a, b) {
-        if(a.res.length < b.res.length) {
-            return 1;
-        }
-        if(b.res.length < a.res.length ) {
-            return -1;
-        }
-        return 0;
+        return b.hybrids.length - a.hybrids.length;
     });
     return res;
-}
+};
 
 export function getAvgMpgByYearAndHybrid(array) {
     let obj = {};
