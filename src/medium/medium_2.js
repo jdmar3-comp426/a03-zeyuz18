@@ -20,38 +20,11 @@ see under the methods section
  * @param {allrestats.ratioHybrids} ratio of res that are hybrids
  */
 export const allrestats = {
-    avgMpg: avgMpg(mpg_data),
-    allYearStats: allYearStats(mpg_data),
-    ratioHybrids: ratioHybrids(mpg_data),
+    avgMpg: {city: mpg_data.map(c => c.city_mpg).reduce((a, b) => a + b, 0) / mpg_data.length,
+    highway: mpg_data.map(c => c.highway_mpg).reduce((a, b) => a + b, 0) / mpg_data.length},
+    allYearStats: getStatistics(mpg_data.map(c => c.year)),
+    ratioHybrids: mpg_data.filter((a) => a.hybrid).length / mpg_data.length,
 };
-
-export function avgMpg(array) {
-    let city = [];
-    let highway = [];;
-    for (let i = 0; i < array.length; i++) {
-        city.push(array[i].city_mpg)
-        highway.push(array[i]).highway_mpg;
-    }
-    return {city:getSum(city) / array.length, highway:getSum(highway) / array.length}
-}
-
-export function allYearStats(array) {
-    let res = [];
-    for (let i = 0; i < array.length; i++) {
-        res.push(array[i].year)
-    }
-    return getStatistics(res);
-}
-
-export function ratioHybrids(array) {
-    let res = 0;
-    for (let i = 0; i < array.length; i++) {
-        if (array[i].hybrid) {
-            res++;
-        }
-    }
-    return res / array.length;
-}
 /**
  * HINT: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce
  *
@@ -119,9 +92,9 @@ export function getMakerHybrids(array) {
     var res = array.reduce(
         function(prev, curr) {
             if(curr.hybrid) {
-                var index = prev.map(c => c.make).indexOf(curr.make);
-                if(index != -1) {
-                    prev[index].res.push(curr.id);
+                var i = prev.map(c => c.make).indexOf(curr.make);
+                if(i != -1) {
+                    prev[i].res.push(curr.id);
                 } else {
                     prev.push({"make":curr.make,"hybrids":[curr.id]});
                 }
