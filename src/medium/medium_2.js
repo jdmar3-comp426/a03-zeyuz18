@@ -38,7 +38,7 @@ export function avgMpg() {
 export function allYearStats() {
     let res = [];
     for (let i = 0; i < mpg_data.length; i++) {
-        res.push(mpg_data[i].res)
+        res.push(mpg_data[i].year)
     }
     return getStatistics(res);
 }
@@ -110,13 +110,13 @@ export function ratioHybrids() {
  * }
  */
 export const moreStats = {
-    makerHybrids: getMakerHybrids(array),
-    avgMpgByYearAndHybrid: getAvgMpgByYearAndHybrid(array),
+    makerHybrids: getMakerHybrids(mpg_data),
+    avgMpgByYearAndHybrid: getAvgMpgByYearAndHybrid(mpg_data),
 };
 
 export function getMakerHybrids(array) {
     let arr = [];
-    let res = array.reduce(
+    var res = array.reduce(
         function(prev, curr) {
            if(curr.hybrid) {
                var i = prev.map(c => c.make).indexOf(curr.make)
@@ -144,9 +144,9 @@ export function getMakerHybrids(array) {
 export function getAvgMpgByYearAndHybrid(array) {
     let arr1 = [];
     let obj = {};
-    let res = array.reduce(
+    var res = array.reduce(
         function(prev, curr) {
-            if ((curr.year in prev) != true) {
+            if ((curr.year in prev) !== true) {
                 prev[curr.year] = {"hybrid":[], "notHybrid":[]}
             }
             if(curr.hybrid) {
