@@ -20,37 +20,37 @@ see under the methods section
  * @param {allrestats.ratioHybrids} ratio of res that are hybrids
  */
 export const allrestats = {
-    avgMpg: avgMpg(),
-    allYearStats: allYearStats(),
-    ratioHybrids: ratioHybrids(),
+    avgMpg: avgMpg(mpg_data),
+    allYearStats: allYearStats(mpg_data),
+    ratioHybrids: ratioHybrids(mpg_data),
 };
 
-export function avgMpg() {
+export function avgMpg(array) {
     let city = [];
     let highway = [];;
-    for (let i = 0; i < mpg_data.length; i++) {
-        city.push(mpg_data[i].city_mpg)
-        highway.push(mpg_data[i]).highway_mpg;
+    for (let i = 0; i < array.length; i++) {
+        city.push(array[i].city_mpg)
+        highway.push(array[i]).highway_mpg;
     }
-    return {city:getSum(city) / mpg_data.length, highway:getSum(highway) / mpg_data.length}
+    return {city:getSum(city) / array.length, highway:getSum(highway) / array.length}
 }
 
-export function allYearStats() {
+export function allYearStats(array) {
     let res = [];
-    for (let i = 0; i < mpg_data.length; i++) {
-        res.push(mpg_data[i].year)
+    for (let i = 0; i < array.length; i++) {
+        res.push(array[i].year)
     }
     return getStatistics(res);
 }
 
-export function ratioHybrids() {
+export function ratioHybrids(array) {
     let res = 0;
-    for (let i = 0; i < mpg_data.length; i++) {
-        if (mpg_data[i].hybrid) {
+    for (let i = 0; i < array.length; i++) {
+        if (array[i].hybrid) {
             res++;
         }
     }
-    return res / mpg_data.length;
+    return res / array.length;
 }
 /**
  * HINT: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce
