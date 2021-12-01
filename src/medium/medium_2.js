@@ -87,46 +87,5 @@ export const moreStats = {
     avgMpgByYearAndHybrid: getAvgMpgByYearAndHybrid(mpg_data),
 };
 
-export function getMakerHybrids(array) {
-    let temp = [];
-    let res = [];
-    for (let i = 0; i < array.length; i++) {
-        temp.push(array[i].make);
-    }
-    let a = [... new Set(temp)];
-    for (let i = 0; i < temp.length; i++) {
-        var str = a[i];
-        const id_arr = [];
-        for (let j = 0; j < array.length; j++) {
-            if (array[j].make == a[i]) {
-                id_arr.push(array[j].id)
-            }
-        }
-        res.push({make: str, hybrids: id_arr});
-    }
-    res.sort(function(a, b) {
-        return b.hybrids.length - a.hybrids.length;
-    });
-    return res;
-};
 
-export function getAvgMpgByYearAndHybrid(array) {
-    let obj = {};
-    var res = array.reduce(
-        function(prev, curr) {
-            if(!(curr.year in prev)) {
-                prev[curr.year] = {"hybrid":[],"notHybrid":[]}
-            }
-            if(curr.hybrid) {
-                prev[curr.year].hybrid.push(curr);
-            } else {
-                prev[curr.year].notHybrid.push(curr);
-            }
-            return prev;
-        }, obj
-    );
-    Object.keys(res).forEach(c => res[c].hybrid = avgMpg(res[c].hybrid));
-    Object.keys(res).forEach(c => res[c].notHybrid = avgMpg(res[c].notHybrid));
-    return res;
-}
 
