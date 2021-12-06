@@ -1,5 +1,5 @@
 import mpg_data from "./data/mpg_data.js";
-import {getStatistics} from "./medium_1.js";
+import {getStatistics, getSum} from "./medium_1.js";
 
 /*
 This section can be done by using the array prototype functions.
@@ -12,20 +12,19 @@ see under the methods section
  * This object contains data that has to do with every car in the `mpg_data` object.
  *
  *
- * @param {allCarStats.avgMpg} Average miles per gallon on the highway and in the city. keys `city` and `highway`
+ * @param {allcarStats.avgMpg} Average miles per gallon on the highway and in the city. keys `city` and `highway`
  *
- * @param {allCarStats.allYearStats} The result of calling `getStatistics` from medium_1.js on
- * the years the cars were made.
+ * @param {allcarStats.allYearStats} The result of calling `getStatistics` from medium_1.js on
+ * the years the car were made.
  *
- * @param {allCarStats.ratioHybrids} ratio of cars that are hybrids
+ * @param {allcarStats.ratioHybrids} ratio of car that are hybrids
  */
 export const allCarStats = {
-    avgMpg: undefined,
-    allYearStats: undefined,
-    ratioHybrids: undefined,
+    avgMpg: {city: mpg_data.map(c => c.city_mpg).reduce((a, b) => a + b, 0) / mpg_data.length,
+    highway: mpg_data.map(c => c.highway_mpg).reduce((a, b) => a + b, 0) / mpg_data.length},
+    allYearStats: getStatistics(mpg_data.map(c => c.year)),
+    ratioHybrids: mpg_data.filter((a) => a.hybrid).length / mpg_data.length,
 };
-
-
 /**
  * HINT: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce
  *
@@ -84,6 +83,9 @@ export const allCarStats = {
  * }
  */
 export const moreStats = {
-    makerHybrids: undefined,
-    avgMpgByYearAndHybrid: undefined
+    makerHybrids: getMakerHybrids(mpg_data),
+    avgMpgByYearAndHybrid: getAvgMpgByYearAndHybrid(mpg_data),
 };
+
+
+
